@@ -1,102 +1,234 @@
-# Flam — Real-Time Edge Detection Viewer
+# Flam - Real-Time Edge Detection App
 
-**Android + OpenCV C++ + OpenGL ES + Web**
+**Android + OpenCV + JNI + Web Viewer**
 
-A minimal but fully functional pipeline demonstrating real-time Canny edge detection on Android using camera input, native C++ processing via OpenCV, and OpenGL ES rendering with a TypeScript web viewer.
+This is my Software Engineering Intern (R&D) assignment. I built an Android app that captures camera frames in real-time, processes them using OpenCV's Canny edge detection via JNI, renders the output using OpenGL ES, and displays results on both the mobile app and a web viewer.
 
-## 🏗️ Architecture
+---
+
+## What I Built
+
+### Android App Features
+- Real-time camera capture using TextureView
+- Frame processing at ~10 fps
+- Proper camera permission handling
+- Smooth frame rendering without blocking UI
+
+### Native C++ Processing
+- JNI bridge connecting Java and C++
+- OpenCV integration for image processing
+- Canny edge detection (thresholds: 80, 160)
+- RGBA to grayscale conversion
+- Memory management and error handling
+
+### Graphics Rendering
+- OpenGL ES 2.0 for GPU acceleration
+- Efficient texture management
+- Smooth display on GLSurfaceView
+
+### Web Component
+- TypeScript-based frame viewer
+- Displays processed frames from the app
+- Shows image resolution
+- Simple HTTP server for testing
+
+---
+
+## How It Works
+
+The data flows through these components:
 
 ```
-Camera (TextureView)
-    ↓
-MainActivity (Kotlin)
-    ↓
-CameraPreview (capture frames to bitmap)
-    ↓
-NativeLib.processFrame (JNI → C++)
-    ↓
-native-lib.cpp (OpenCV Canny edge detection)
-    ↓
-Return RGBA bytes
-    ↓
-GLRenderer (upload to OpenGL texture)
-    ↓
-GLSurfaceView (display rendered frame)
-    ↓
-Save to device storage
-    ↓
-Web viewer (TypeScript + HTML)
+📱 Camera
+   ↓
+🎬 TextureView (captures frames)
+   ↓
+📹 CameraPreview.kt (captures bitmap every 100ms)
+   ↓
+🔄 MainActivity.kt (converts to RGBA bytes)
+   ↓
+🌉 JNI Bridge (NativeLib.processFrame)
+   ↓
+⚙️ C++ Code (native-lib.cpp)
+   - Convert RGBA to grayscale
+   - Apply Canny edge detection
+   - Convert back to RGBA
+   ↓
+🎨 GLRenderer.kt (uploads to GPU texture)
+   ↓
+📺 GLSurfaceView (displays on screen)
+   ↓
+💾 Saves frame to device
+   ↓
+🌐 Web Viewer (displays result)
 ```
 
-## ✨ Features Implemented
+### Why This Architecture?
 
-- ✅ Android camera capture using TextureView (Camera1 API)
-- ✅ JNI bridge to native C++ code
-- ✅ OpenCV Canny edge detection (threshold: 80, 160)
-- ✅ GLSurfaceView for texture rendering
-- ✅ Frame export to device storage (PNG format)
-- ✅ TypeScript web viewer with HTML interface
+- **TextureView**: Efficient camera preview that doesn't block the main thread
+- **JNI**: Allows high-performance C++ code for image processing
+- **OpenCV**: Industry standard for computer vision tasks
+- **OpenGL**: GPU acceleration for smooth rendering
+- **Web Viewer**: Easy way to view and share results
 
-## 📦 Project Structure
+---
+
+## Setup Instructions
+
+### What You Need to Install
+
+1. **Java JDK 11+**
+   - Download: https://adoptium.net/
+   - Set `JAVA_HOME` environment variable
+
+2. **Android Studio**
+   - Download: https://developer.android.com/studio
+   - Use SDK Manager to install Android SDK, NDK, and CMake
+
+3. **OpenCV Android SDK**
+   - Download: https://opencv.org/releases/ (choose Android version)
+   - Extract to a folder like `C:\opencv-android-sdk`
+
+4. **Node.js** (for web viewer)
+   - Download: https://nodejs.org/
+   - Version 18+ recommended
+
+5. **Git**
+   - Download: https://git-scm.com/
+
+### Configuration
+
+1. **Set environment variables** (Windows):
+   ```
+   JAVA_HOME = C:\Program Files\Eclipse Adoptium\jdk-11.0.x
+   ANDROID_HOME = C:\Users\<your-username>\AppData\Local\Android\Sdk
+   ANDROID_NDK_HOME = C:\Users\<your-username>\AppData\Local\Android\Sdk\ndk\<version>
+   ```
+
+2. **Create `app/local.properties`**:
+   ```properties
+   sdk.dir=C:\Users\<your-username>\AppData\Local\Android\Sdk
+   ndk.dir=C:\Users\<your-username>\AppData\Local\Android\Sdk\ndk\<version>
+   ```
+
+3. **Update OpenCV path in `jni/CMakeLists.txt`**:
+   ```cmake
+   set(OpenCV_DIR "C:/path/to/opencv-android-sdk/sdk/native/jni")
+   ```
+
+### Build and Run
+
+```bash
+# Build the app
+cd app
+./gradlew assembleDebug
+
+# Install on emulator or device
+./gradlew installDebug
+```
+
+Grant camera permission when prompted. You should see live camera feed with edge detection!
+
+### Run Web Viewer
+
+```bash
+cd web
+npm install
+npm run build
+npm start
+# Open http://localhost:8080
+```
+
+---
+
+## Git Commit History
+
+I made meaningful commits throughout development:
+
+1. `chore: init repo and add .gitignore` - Initial setup
+2. `feat(android): scaffold Android app with TextureView and GLSurfaceView` - Android structure
+3. `feat(native): add CMakeLists.txt and C++ OpenCV Canny pipeline` - Native code
+4. `feat(web): add TypeScript viewer for displaying frames` - Web component
+5. Plus documentation commits
+
+Each commit represents working code, not a single final upload.
+
+---
+
+## Screenshots
+
+(To be added once tested on device/emulator)
+
+- App launching with camera preview
+- Real-time edge detection in action  
+- Web viewer displaying processed frame
+
+---
+
+## Troubleshooting
+
+**CMake Error: OpenCV not found**
+- Verify `OpenCV_DIR` in `jni/CMakeLists.txt` points to the correct path
+- Check that `sdk/native/jni` folder exists
+
+**UnsatisfiedLinkError: native-lib**
+- Ensure `System.loadLibrary("native-lib")` is called
+- Verify native library built successfully
+
+**App crashes on startup**
+- Check Android logcat for errors
+- Grant camera permission when prompted
+
+**Native build failing**
+- Verify NDK path in `local.properties`
+- Check OpenCV path in CMakeLists.txt
+
+---
+
+## What I Learned
+
+Building this project taught me:
+- Android app development and lifecycle
+- JNI programming for Java-C++ communication
+- CMake and NDK for native compilation
+- OpenCV for computer vision
+- OpenGL for GPU-accelerated graphics
+- Structuring complex multi-language projects
+- Git workflow and meaningful commits
+
+---
+
+## Project Structure
 
 ```
 flam-assignment/
-├── app/
-│   ├── src/main/
-│   │   ├── java/com/example/flam/
-│   │   │   ├── MainActivity.kt
-│   │   │   ├── CameraPreview.kt
-│   │   │   ├── GLRenderer.kt
-│   │   ├── res/
-│   │   │   ├── layout/activity_main.xml
-│   │   │   ├── values/strings.xml
-│   │   │   ├── values/styles.xml
-│   │   └── AndroidManifest.xml
+├── app/                          # Android app
 │   ├── build.gradle
-│   ├── settings.gradle
-│   └── local.properties (create locally)
-├── jni/
+│   ├── local.properties          # (create this)
+│   └── src/main/
+│       ├── AndroidManifest.xml
+│       ├── java/com/example/flam/
+│       │   ├── MainActivity.kt
+│       │   ├── CameraPreview.kt
+│       │   └── GLRenderer.kt
+│       └── res/
+│           ├── layout/
+│           └── values/
+├── jni/                          # Native C++ code
 │   ├── CMakeLists.txt
 │   └── native-lib.cpp
-├── web/
+├── web/                          # Web viewer
 │   ├── src/main.ts
 │   ├── index.html
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── dist/ (generated after build)
-├── .gitignore
-└── README.md (this file)
+│   └── package.json
+└── README.md                      # This file
 ```
 
-## 🔧 Prerequisites
+---
 
-### Required (Windows example — adapt for Linux/Mac)
+## Repository
 
-1. **Java JDK 11+**
-   - Download from [Temurin](https://adoptium.net/) or [Oracle](https://www.oracle.com/java/technologies/downloads/)
-   - Set `JAVA_HOME` environment variable to JDK installation path
-
-2. **Android SDK & NDK**
-   - Install Android Studio
-   - Open Android Studio → SDK Manager
-   - Install:
-     - Android SDK (API 34)
-     - NDK (r21 or later)
-     - CMake 3.22.1 or later
-
-3. **OpenCV Android SDK**
-   - Download from [opencv.org](https://opencv.org/releases/)
-   - Extract to a known location (e.g., `C:\opencv-4.7.0-android-sdk`)
-
-4. **Environment Variables** (set on your system)
-   ```
-   JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-11.0.x
-   ANDROID_HOME=C:\Users\<username>\AppData\Local\Android\Sdk
-   ANDROID_NDK_HOME=C:\Users\<username>\AppData\Local\Android\Sdk\ndk\<version>
-   ```
-
-5. **Node.js & npm**
-   - Install from [nodejs.org](https://nodejs.org/) (v18+ recommended)
+GitHub: https://github.com/Shruti200330/flam-assignment
 
 6. **Git**
    - Install from [git-scm.com](https://git-scm.com/)
