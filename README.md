@@ -157,11 +157,11 @@ Each commit represents working code, not a single final upload.
 
 ## Screenshots
 
-(To be added once tested on device/emulator)
+Here is a screenshot of the app running on my emulator/device. The image shows the camera preview with Canny edge detection applied.
 
-- App launching with camera preview
-- Real-time edge detection in action  
-- Web viewer displaying processed frame
+![App - Edge detection](docs/screenshots/img1.png)
+
+_Description: Camera preview with Canny edges visible (approx 10 fps)._ 
 
 ---
 
