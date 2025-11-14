@@ -39,28 +39,28 @@ This is my Software Engineering Intern (R&D) assignment. I built an Android app 
 The data flows through these components:
 
 ```
-📱 Camera
+Camera
    ↓
-🎬 TextureView (captures frames)
+TextureView (captures frames)
    ↓
-📹 CameraPreview.kt (captures bitmap every 100ms)
+CameraPreview.kt (captures bitmap every 100ms)
    ↓
-🔄 MainActivity.kt (converts to RGBA bytes)
+MainActivity.kt (converts to RGBA bytes)
    ↓
-🌉 JNI Bridge (NativeLib.processFrame)
+JNI Bridge (NativeLib.processFrame)
    ↓
-⚙️ C++ Code (native-lib.cpp)
+C++ Code (native-lib.cpp)
    - Convert RGBA to grayscale
    - Apply Canny edge detection
    - Convert back to RGBA
    ↓
-🎨 GLRenderer.kt (uploads to GPU texture)
+GLRenderer.kt (uploads to GPU texture)
    ↓
-📺 GLSurfaceView (displays on screen)
+GLSurfaceView (displays on screen)
    ↓
-💾 Saves frame to device
+Saves frame to device
    ↓
-🌐 Web Viewer (displays result)
+Web Viewer (displays result)
 ```
 
 ### Why This Architecture?
