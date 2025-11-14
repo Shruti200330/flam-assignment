@@ -234,7 +234,7 @@ GitHub: https://github.com/Shruti200330/flam-assignment
    - Install from [git-scm.com](https://git-scm.com/)
    - Configure: `git config --global user.name "Your Name"` and `git config --global user.email "your@email.com"`
 
-## 🚀 Setup & Build
+## Setup & Build
 
 ### Step 1: Initialize Repository
 
@@ -314,7 +314,7 @@ npm start
 # Open http://localhost:8080
 ```
 
-## 📝 Git Commit Checklist
+## Git Commit Checklist
 
 Make clean, incremental commits:
 
@@ -344,7 +344,7 @@ git add -A
 git commit -m "chore: final cleanup and minor improvements"
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 | Problem | Solution |
 |---------|----------|
@@ -355,7 +355,7 @@ git commit -m "chore: final cleanup and minor improvements"
 | Bitmap colors garbled | May be RGBA/BGRA mismatch; try `COLOR_BGRA2GRAY` in `native-lib.cpp` line with `cvtColor` |
 | Web viewer shows broken image | Ensure `frame.png` exists in `web/dist/`; verify file path with `adb pull` |
 
-## 📱 Testing the Pipeline
+## Testing the Pipeline
 
 1. **Verify camera works:**
    - App should show live camera feed in TextureView
@@ -377,7 +377,7 @@ git commit -m "chore: final cleanup and minor improvements"
    - Open http://localhost:8080
    - Should display processed frame with stats (resolution, status)
 
-## 📚 Key Code Files
+## Key Code Files
 
 ### MainActivity.kt
 Handles lifecycle, camera permissions, and frame processing pipeline.
@@ -394,7 +394,7 @@ JNI entry point; converts RGBA → grayscale → Canny → RGBA using OpenCV.
 ### web/src/main.ts
 Displays processed PNG frame and updates stats.
 
-## 🎯 Optional Enhancements
+## Optional Enhancements
 
 - [ ] Add Camera2 API for better performance
 - [ ] Implement toggle button to switch raw/processed view
@@ -403,17 +403,17 @@ Displays processed PNG frame and updates stats.
 - [ ] Add Gaussian blur or other CV filters
 - [ ] Reduce latency with ImageReader instead of TextureView.getBitmap()
 
-## 🔗 References
+## References
 
 - [Android Camera Guide](https://developer.android.com/guide/topics/media/camera)
 - [JNI Documentation](https://docs.oracle.com/javase/8/docs/technotes/guides/jni/)
 - [OpenCV Android](https://docs.opencv.org/master/db/df8/tutorial_root.html)
 - [OpenGL ES on Android](https://developer.android.com/guide/topics/graphics/opengl)
 
-## 📄 License
+## License
 
 MIT — use freely for learning and development.
 
 ---
 
-**Built with ❤️ for real-time edge detection on Android.**
+**Built for real-time edge detection on Android.**
